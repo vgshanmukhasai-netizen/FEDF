@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weather Information System</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.weather-container {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    width: 350px;
+}
+
+h1 {
+    color: #0077cc;
+}
+
+button {
+    padding: 10px 15px;
+    background: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #005fa3;
+}
+</style>
+
+</head>
+<body>
+
+<div class="weather-container">
+    <h1>Weather Information System</h1>
+    <h3>Location: Hyderabad</h3>
+
+    <div id="weatherData">
+        Loading Weather Information...
+    </div>
+
+    <br>
+    <button onclick="fetchWeather()">Refresh Weather</button>
+</div>
+
+<script>
+async function fetchWeather() {
+    const weatherDiv = document.getElementById("weatherData");
+
+    try {
+        weatherDiv.innerHTML = "Loading Weather Information...";
+
+        const response = await fetch(
+            "https://api.open-meteo.com/v1/forecast?latitude=17.38&longitude=78.48&current_weather=true"
+        );
+
+        if (!response.ok) {
+            throw new Error("Unable to fetch weather data");
+        }
+
+        const data = await response.json();
+        const weather = data.current_weather;
+
+        weatherDiv.innerHTML = `
+            <p><strong>Temperature:</strong> ${weather.temperature} °C</p>
+            <p><strong>Wind Speed:</strong> ${weather.windspeed} km/h</p>
+            <p><strong>Wind Direction:</strong> ${weather.winddirection}°</p>
+        `;
+    } catch (error) {
+        weatherDiv.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+    }
+}
+
+fetchWeather();
+</script>
+
+</body>
+</html>
