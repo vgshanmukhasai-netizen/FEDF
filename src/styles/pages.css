@@ -1,0 +1,380 @@
+/* ════════════════════════════════════════
+   LOGIN FULL PAGE
+════════════════════════════════════════ */
+.login-fullpage {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 20% 30%,  rgba(0,100,200,0.14) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 70%,  rgba(0,180,120,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 65% 10%,  rgba(0,220,255,0.06) 0%, transparent 40%),
+    linear-gradient(160deg, #04071A 0%, #070B28 40%, #0A0E2A 100%);
+}
+
+/* ════════════════════════════════════════
+   LANDING SCREEN
+════════════════════════════════════════ */
+.landing-screen {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10;
+}
+
+.landing-exit {
+  animation: landingFadeOut .9s ease forwards;
+  pointer-events: none;
+}
+@keyframes landingFadeOut {
+  0%   { opacity: 1; }
+  60%  { opacity: 0.4; }
+  100% { opacity: 0; }
+}
+
+.landing-logo-wrap {
+  display: flex; flex-direction: column;
+  align-items: center; cursor: pointer;
+  position: relative; z-index: 2; outline: none;
+  user-select: none;
+}
+
+/* ── IDENTICAL TRANSITIONS ── */
+.logo-idle    { animation: logoFloat 3.8s ease-in-out infinite; }
+.logo-fly-up  { animation: logoFlyUp .85s cubic-bezier(.4,0,.2,1) forwards; }
+
+@keyframes logoFloat {
+  0%,100% { transform: translateY(0px) scale(1); }
+  50%     { transform: translateY(-14px) scale(1.02); }
+}
+@keyframes logoFlyUp {
+  0%   { transform: translateY(0px)    scale(1);    opacity: 1; }
+  50%  { transform: translateY(-80px)  scale(0.88); opacity: 0.70; }
+  100% { transform: translateY(-200px) scale(0.62); opacity: 0; }
+}
+
+/* Ambient cyan glow disc behind logo */
+.landing-logo-wrap::before {
+  content: '';
+  position: absolute; top: 48%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 440px; height: 440px;
+  background: radial-gradient(
+    circle,
+    rgba(0,220,255,0.10) 0%,
+    rgba(0,180,120,0.06) 40%,
+    transparent 70%
+  );
+  filter: blur(34px);
+  border-radius: 50%;
+  animation: ambientPulse 4s ease-in-out infinite;
+  pointer-events: none; z-index: -1;
+}
+@keyframes ambientPulse {
+  0%,100% { opacity: .55; transform: translate(-50%,-50%) scale(1);    }
+  50%     { opacity: 1;   transform: translate(-50%,-50%) scale(1.07); }
+}
+
+/* Hover: rings brighten */
+.landing-logo-wrap:hover .icu-circle-logo {
+  filter:
+    drop-shadow(0 0 14px rgba(0,245,255,0.50))
+    drop-shadow(0 0 32px rgba(0,200,255,0.25));
+  transition: filter .3s;
+}
+
+.landing-subtitle {
+  font-family: var(--fb); font-size: .88rem;
+  color: var(--txt3); letter-spacing: 2px;
+  margin-top: 14px; text-align: center;
+}
+
+.landing-click-hint {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 20px; font-family: var(--fh);
+  font-size: .62rem; color: rgba(0,220,255,0.60);
+  letter-spacing: 3px; text-transform: uppercase;
+  animation: hintPulse 2.5s ease-in-out infinite;
+}
+@keyframes hintPulse {
+  0%,100% { opacity: .45; }
+  50%     { opacity: .95; }
+}
+.hint-dot {
+  width: 6px; height: 6px;
+  background: #00F0FF; border-radius: 50%;
+  box-shadow: 0 0 8px rgba(0,240,255,0.70);
+  animation: blink 1.4s infinite;
+}
+
+/* ════════════════════════════════════════
+   ICU CIRCLE LOGO ANIMATIONS
+════════════════════════════════════════ */
+.icu-circle-logo {
+  filter:
+    drop-shadow(0 0 6px  rgba(0,245,255,0.55))
+    drop-shadow(0 0 16px rgba(0,200,255,0.25));
+  animation: ringPulse 2.8s ease-in-out infinite;
+  transition: filter .3s;
+}
+
+@keyframes ringPulse {
+  0%,100% {
+    filter:
+      drop-shadow(0 0 5px  rgba(0,245,255,0.50))
+      drop-shadow(0 0 14px rgba(0,200,255,0.22));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 9px  rgba(0,245,255,0.75))
+      drop-shadow(0 0 24px rgba(0,200,255,0.40))
+      drop-shadow(0 0 44px rgba(0,200,255,0.15));
+  }
+}
+
+/* ECG heartbeat draw — sweeps left to right, resets */
+.icu-ecg-anim {
+  stroke-dasharray: 350;
+  stroke-dashoffset: 350;
+  animation: ecgSweep 2.0s ease-in-out infinite;
+}
+@keyframes ecgSweep {
+  0%   { stroke-dashoffset: 350; opacity: 0.35; }
+  20%  { opacity: 1; }
+  72%  { stroke-dashoffset: 0;   opacity: 1; }
+  88%  { stroke-dashoffset: 0;   opacity: 0.65; }
+  100% { stroke-dashoffset: 350; opacity: 0.35; }
+}
+
+/* ════════════════════════════════════════
+   LOGIN CENTER LAYOUT — IDENTICAL TRANSITIONS
+════════════════════════════════════════ */
+.login-center-wrap {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 20; padding: 20px 16px; overflow-y: auto;
+}
+
+.login-fade-in {
+  animation: loginRiseIn .75s cubic-bezier(.4,0,.2,1) forwards;
+  opacity: 0;
+}
+.login-visible { opacity: 1; }
+
+@keyframes loginRiseIn {
+  0%   { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Small logo above card — heartbeat scale */
+.login-top-logo {
+  margin-bottom: 8px;
+  animation: topLogoHeartbeat 2.2s ease-in-out infinite;
+}
+@keyframes topLogoHeartbeat {
+  0%,100% { transform: scale(1);    }
+  14%     { transform: scale(1.07); }
+  28%     { transform: scale(0.96); }
+  42%     { transform: scale(1.04); }
+  56%     { transform: scale(1);    }
+}
+
+/* ── LOGIN CARD ── */
+.login-center-card {
+  width: 100%; max-width: 440px;
+  background: rgba(4,7,28,0.86);
+  border: 1px solid rgba(0,200,255,0.18);
+  border-radius: 24px; padding: 28px 32px;
+  position: relative;
+  backdrop-filter: blur(28px) saturate(1.2);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04) inset,
+    0 1px 0 rgba(0,240,255,0.08) inset,
+    0 8px 48px rgba(0,0,0,0.60);
+}
+
+/* Cyan-to-green top accent line */
+.card-accent-line {
+  position: absolute; top: 0; left: 12%; right: 12%; height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0,245,255,0.55),
+    rgba(0,255,128,0.45),
+    transparent
+  );
+  border-radius: 99px;
+}
+
+.login-center-card::before {
+  content: '';
+  position: absolute; top: -50px; left: -50px;
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, rgba(0,220,255,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.login-center-card::after {
+  content: '';
+  position: absolute; bottom: -50px; right: -50px;
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, rgba(0,200,120,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.back-to-landing {
+  margin-top: 16px; font-size: .73rem; color: var(--txt3);
+  background: none; border: none; cursor: pointer;
+  font-family: var(--fb); letter-spacing: .3px; transition: color .2s;
+}
+.back-to-landing:hover { color: var(--txt2); }
+
+/* ════════════════════════════════════════
+   CARD INTERNALS
+════════════════════════════════════════ */
+.login-hdr  { text-align: center; margin-bottom: 20px; }
+.login-hdr h1 {
+  font-family: var(--fh); font-size: 1.08rem;
+  line-height: 1.35; color: var(--txt); font-weight: 700; letter-spacing: .3px;
+}
+.login-hdr h1 span { color: #00E8FF; }
+.login-hdr p  { color: var(--txt3); font-size: .71rem; margin-top: 5px; }
+
+.login-step.active { display: block; }
+
+.login-err {
+  margin-top: 10px; padding: 10px 14px;
+  background: var(--red-bg); border: 1px solid var(--red-bdr);
+  border-radius: 10px; color: var(--red); font-size: .8rem; line-height: 1.5;
+}
+
+.back-btn-sm {
+  width: 100%; margin-top: 8px; padding: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px; color: var(--txt3);
+  font-size: .82rem; transition: all .22s; cursor: pointer;
+}
+.back-btn-sm:hover { border-color: rgba(0,220,255,0.30); color: var(--txt2); }
+
+/* OTP */
+.otp-phone-tag {
+  text-align: center; padding: 9px 13px;
+  background: rgba(0,220,255,0.07);
+  border: 1px solid rgba(0,220,255,0.20);
+  border-radius: 9px; margin-bottom: 11px;
+  font-size: .8rem; color: var(--txt2);
+}
+.otp-phone-tag b { color: #00E8FF; font-family: var(--fm); }
+
+.sms-bubble {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(0,220,255,0.14);
+  border-radius: 13px; padding: 13px 15px; margin-bottom: 13px;
+}
+.sms-bubble::before {
+  content: '📩 MEDICORE-ICU'; display: block;
+  font-size: .62rem; color: var(--txt3); letter-spacing: 1px; margin-bottom: 5px;
+}
+.sms-txt  { font-size: .77rem; color: var(--txt2); line-height: 1.6; }
+.sms-code {
+  font-family: var(--fm); font-size: 1.6rem; font-weight: 700;
+  color: #00E8FF; letter-spacing: 10px; text-align: center; margin: 9px 0;
+  text-shadow: 0 0 10px rgba(0,220,255,0.50);
+}
+.sms-note { font-size: .65rem; color: var(--txt3); margin-top: 3px; }
+
+.resend-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: .73rem; color: var(--txt3); margin-bottom: 10px;
+}
+.resend-btn {
+  color: #00E8FF; cursor: pointer; background: none; border: none;
+  font-size: .73rem; font-family: var(--fb); transition: opacity .2s;
+}
+.resend-btn:disabled { color: var(--txt3); cursor: not-allowed; }
+.resend-btn:not(:disabled):hover { opacity: .7; }
+
+.otp-inputs {
+  display: flex; align-items: center; justify-content: center; gap: 8px; margin: 12px 0;
+}
+.otp-digit {
+  width: 46px; height: 54px; text-align: center;
+  background: rgba(0,220,255,0.05);
+  border: 1.5px solid rgba(0,220,255,0.22);
+  border-radius: 11px; color: #00E8FF;
+  font-family: var(--fh); font-size: 1.35rem; transition: all .22s;
+}
+.otp-digit:focus {
+  border-color: #00E8FF;
+  box-shadow: 0 0 0 3px rgba(0,220,255,0.12);
+  background: rgba(0,220,255,0.07); outline: none;
+}
+
+.mfa-hdr   { text-align: center; margin-bottom: 13px; }
+.mfa-hdr .mfa-ico { font-size: 2rem; margin-bottom: 5px; }
+.mfa-hdr h3 { font-family: var(--fh); font-size: .9rem; color: #00E8FF; }
+.mfa-hdr p  { font-size: .76rem; color: var(--txt3); margin-top: 3px; }
+
+/* ════════════════════════════════════════
+   SIGNUP PAGE
+════════════════════════════════════════ */
+.signup-page {
+  flex-direction: column; align-items: center; justify-content: flex-start;
+  min-height: 100vh; overflow-y: auto; padding: 30px 16px;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(0,100,200,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 70%, rgba(0,160,100,0.08) 0%, transparent 50%),
+    linear-gradient(160deg, #04071A 0%, #070B28 40%, #0A0E2A 100%);
+}
+.su-card {
+  position: relative; z-index: 1; width: 100%; max-width: 640px;
+  background: rgba(4,7,28,0.86);
+  border: 1px solid rgba(0,200,255,0.18);
+  border-radius: 24px; padding: 38px 42px;
+  backdrop-filter: blur(24px);
+  margin: auto;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.55);
+}
+.su-card::before {
+  content: '';
+  position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0,245,255,0.50),
+    rgba(0,255,128,0.40),
+    transparent
+  );
+  border-radius: 99px;
+}
+.su-logo-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 18px; margin-bottom: 24px;
+}
+.su-title h1 {
+  font-family: var(--fh); font-size: 1.15rem; color: var(--txt);
+  letter-spacing: 1px; line-height: 1.25; font-weight: 700;
+}
+.su-title p  { font-size: .66rem; color: var(--txt3); letter-spacing: 1.5px; margin-top: 4px; }
+.su-divider  { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+.su-divider::before, .su-divider::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,200,255,0.25), transparent);
+}
+.su-divider span {
+  font-size: .62rem; color: var(--txt3); letter-spacing: 2px;
+  white-space: nowrap; font-family: var(--fh);
+}
+.su-grid       { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.su-grid .full { grid-column: 1 / -1; }
+
+@media (max-width: 500px) {
+  .login-center-card { padding: 22px 16px; border-radius: 18px; }
+  .login-top-logo    { transform: scale(0.75); }
+  .su-grid           { grid-template-columns: 1fr; }
+  .su-card           { padding: 22px 18px; }
+}
